@@ -1,0 +1,3 @@
+Weatherments is a software that combines analyisis of tweet setniments using NLTK and weather sentiments using a homergrown 
+mapping from weather data to degrees of goodness to figure out the general mood of people in a specific area during certain 
+weather states.
