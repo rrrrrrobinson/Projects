@@ -8,6 +8,10 @@ import json # ~pretty~ print
 from functools import partial # maybe on this one dont know if well actually need it
 import io # send to files to send to databse
 from collections import Counter
+import nltk.sentiment.util
+from nltk import *
+from nltk.corpus import sentiwordnet as swn
+from nltk.corpus import wordnet as wn
 
 
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
@@ -44,6 +48,7 @@ def sentiment():
     #for i in swn.senti_synsets(newSet): 
     #   print(i)
 
+    # https://www.nltk.org/api/nltk.sentiment.html
     # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
     print(nltk.sentiment.util.demo_vader_instance("Very bad movie"))
