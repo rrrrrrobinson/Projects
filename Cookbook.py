@@ -28,6 +28,24 @@ def oauth_login():
     return twitter_api
 
 
+# This function uses the stream endpoint to stream tweets from a specified location
+# twitter_api is the twitter object your collecting from and location is the geocode of the focus area
+def StreamLoc (twitter_api, location):
+    tweetLs = []
+    # Here we created our stream object
+    twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
+    # Here we say the string stream will hold all of the statuses collected from the area location
+    stream = twitter_stream.statuses.filter(locations='-74,40,-73,41')
+    for tweet in stream:
+        try:
+            if tweet['truncated']: # If a tweet is truncated, get the full thing
+                tweetLs.append(tweet['extended_tweet']['full_text'])
+            else: tweetLs.append(tweet['text'])
+        except:
+            pass
+    return tweetLs
+    #print json.dumps(stream)
+
 def sentiment():
 
     # seperates strings into tokens
