@@ -9,6 +9,7 @@ from functools import partial # maybe on this one dont know if well actually nee
 import io # send to files to send to databse
 from collections import Counter
 
+
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
 def oauth_login(): 
     CONSUMER_KEY = 'rrrdYKyayW330BVVGEb4nMsHH'
@@ -21,3 +22,28 @@ def oauth_login():
     
     twitter_api = twitter.Twitter(auth=auth)
     return twitter_api
+
+
+def sentiment():
+
+    # seperates strings into tokens
+    tt = TweetTokenizer()
+    tokens = tt.tokenize("This is was")
+    print(tokens)
+
+    # lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
+    # >>> import nltk
+    # >>> nltk.download('wordnet')
+    wnl = WordNetLemmatizer()
+    newSet = [wnl.lemmatize(t) for t in tokens]
+    newString = ' '.join(newSet)
+    print(newString)
+
+    # not needed?
+    # >>> nltk.download('sentiwordnet')
+    #for i in swn.senti_synsets(newSet): 
+    #   print(i)
+
+    # >>> nltk.download('vader_lexicon')
+    # Output polarity scores for a text using Vader approach.
+    print(nltk.sentiment.util.demo_vader_instance("Very bad movie"))

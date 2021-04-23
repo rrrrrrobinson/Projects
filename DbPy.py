@@ -6,6 +6,7 @@ client = MongoClient("mongodb+srv://user0:gKGDWJlHy6qGZrhx@weathermentsdb.tdbnp.
 db = client.get_database('WeathermentsDB')
 test = db.TweetData # tweetData collection
 
+'''
 print(test.count_documents({})) #count number of documents, {} can be used to filter ex. 'name':'test'
 
 new_entry = {
@@ -14,7 +15,7 @@ new_entry = {
     'branch':'dev'
 }
 
-test.insert_one(new_entry) # one entry
+#test.insert_one(new_entry) # one entry
 
 new_list = [
     {
@@ -27,7 +28,7 @@ new_list = [
     }
 ]
 
-test.insert_many(new_list) #list of dict
+#test.insert_many(new_list) #list of dict
 
 # all of these ^ operations make new db entries, they do not overwrite\
 
@@ -41,7 +42,7 @@ print(test.find_one({'name':'test3'}))
 test_update = {
     'name':'testNEW'
 }
-test.update_one({'name':'test3'}, {'$set':test_update}) # or delete many, this will aplly the test_update to all documents FOUND
+#test.update_one({'name':'test3'}, {'$set':test_update}) # or delete many, this will aplly the test_update to all documents FOUND
 
 print(test.find_one({'name':'testNEW'}))
 
@@ -49,3 +50,20 @@ print(test.find_one({'name':'testNEW'}))
 #test.delete_one() or delete_many
 test.delete_one({'name':'testNEW'})
 print(test.find_one({'name':'testNEW'})) # returns none. it is deleted
+'''
+#  -- useful stuff ---------------------------------------------------
+# object try
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("mike", 133)
+
+
+test.insert_one(p1.__dict__)
+print(test.find_one({'name':'mike'}))
+print("found")
+
+for i in (list(test.find())):
+    print (i)
