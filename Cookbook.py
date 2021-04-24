@@ -26,11 +26,16 @@ class TweetDB:
 
 
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
-def oauth_login(): 
-    CONSUMER_KEY = 'rrrdYKyayW330BVVGEb4nMsHH'
-    CONSUMER_SECRET = 'tC2sMcGf3QwDuS4jvvp4X1JKmJs4MqkTggvST0906CPBPE4fgs'
-    OAUTH_TOKEN = '1368678652058218504-NbUWEatUhUFjbElHASrmQKe8BGjMyE'
-    OAUTH_TOKEN_SECRET = 'HwcXId3HVhZxJ1WXFj3rrPss7ESxGd4qdYbpYGZRjVDYv'
+def oauth_login():
+    keys = []
+    with open ('lorem.txt', 'rt') as myfile:  # Open lorem.txt for reading
+        for myline in myfile:
+            keys.append(myline)
+    
+    CONSUMER_KEY = keys[0]
+    CONSUMER_SECRET = keys[1]
+    OAUTH_TOKEN = keys[2]
+    OAUTH_TOKEN_SECRET = keys[3]
     
     auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
                                CONSUMER_KEY, CONSUMER_SECRET)
