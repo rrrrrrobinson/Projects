@@ -9,16 +9,18 @@ from functools import partial # maybe on this one dont know if well actually nee
 import io # send to files to send to databse
 from collections import Counter
 import nltk.sentiment.util
+from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import *
 from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import wordnet as wn
 
 class TweetDB:
-    def __init__(self, twStr, weatherSent='none'):
-        self.tweetSent = sentiment(twStr[0]) # Setniment of tweet
-        self.tweet = twStr[0] # tweet as string
-        self.time = twStr[1][3] # time in '00:00:00' format
-        self.date = twStr[1][0:3] # date in 'Wed Oct 10' format
+    def __init__(self, twStr, time, weatherSent='none'):
+        ls = time.split()
+        self.tweetSent = sentiment(twStr) # Setniment of tweet
+        self.tweet = twStr # tweet as string
+        self.time = ls[3] # time in '00:00:00' format
+        self.date = ' '.join(ls[0:3]) # date in 'Wed Oct 10' format
         self.weatherSent = weatherSent # weather sentiment
 
     def setWeath(self, weathSent): # weather sentiment setter
@@ -51,29 +53,24 @@ def StreamLoc (twitter_api, location):
     tweetLs = []
     # Here we created our stream object
     twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
-    # Here we say the string stream will hold all of the statuses collected from the area location
+    # Here we say stream will hold all of the statuses collected from the area, location
     stream = twitter_stream.statuses.filter(locations='-74,40,-73,41')
-    c = 0
+
     for tweet in stream:
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
-                #  a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'])
-                #  tweetLs.append(a)
-                #****Above to be uncommented, below deleted once sentiment() is fully working
-                tweetSet = (tweet['extended_tweet']['full_text'], tweet['created_at'])
-                tweetLs.append(tweetSet)
+                a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']) 
+                tweetLs.append(a) # Here we create an instance of the class TweetDB with our tweets and append them to a return list
             else:
-                #a =  TweetDB(tweet['text'],tweet['created_at'])
-                #tweetLs.append(a)
-                #****Above to be uncommented, below deleted once sentiment() is fully working
-                tweetSet = (tweet['text'], tweet['created_at'])
-                tweetLs.append(tweetSet)
+                a =  TweetDB(tweet['text'],tweet['created_at'])
+                tweetLs.append(a)
         except:
             pass
+        if (len(tweetLs) > 10): return tweetLs # this is just a tester it will stop after 10 tweets are collected
     return tweetLs
 
-def sentiment(tweetStr):
 
+def sentiment(tweetStr):
     # seperates strings into tokens
     tt = TweetTokenizer()
     tokens = tt.tokenize(tweetStr)
@@ -95,6 +92,8 @@ def sentiment(tweetStr):
     # https://www.nltk.org/api/nltk.sentiment.html
     # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
-    print(nltk.sentiment.util.demo_vader_instance(newString))
-    return (nltk.sentiment.util.demo_vader_instance(newString))
-    #print(nltk.sentiment)
+    a = SentimentIntensityAnalyzer().polarity_scores(newString)
+    print (a)
+    return a
+    #return (nltk.sentiment.util.demo_vader_instance(newString)) *******OLD IMPLEMENTATION, CURRENT IS ABOVE
+    

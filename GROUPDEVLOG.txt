@@ -1,0 +1,9 @@
+Hunter 4/23
+	We implemented both the streaming api (StreamLoc) to get the tweets and the 
+	sentiment analysis (sentiment()) of the tweets.
+	We also implemented the data type that stores the info we need (TweetDB) so
+	it can be sent to the databse.
+	***What we need to do/improve:
+		We need to finish the weather api and integrate it (add weatherSents in TweetCollector)
+		We need to decide how to limit the streaming api (i.e. when to stop collecting)
+		
