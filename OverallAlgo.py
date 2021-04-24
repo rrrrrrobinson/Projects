@@ -8,7 +8,7 @@ Entries objects...
 - time
 - tweet
 - tweet setiment value (can be null)
-- weather value or description (based off weather api decison)
+- weather value or description (based off weather api decison)=NULL
 
 ---------
 algorithm -- collect tweets

@@ -13,6 +13,17 @@ from nltk import *
 from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import wordnet as wn
 
+class TweetDB:
+    def __init__(self, twStr, weatherSent='none'):
+        self.tweetSent = sentiment(twStr[0]) # Setniment of tweet
+        self.tweet = twStr[0] # tweet as string
+        self.time = twStr[1][3] # time in '00:00:00' format
+        self.date = twStr[1][0:3] # date in 'Wed Oct 10' format
+        self.wheatherSent = wheatherSent # weather sentiment
+
+    def setWeath(self, weathSent): # weather sentiment setter
+        self.weahterSent = weathSent
+
 
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
 def oauth_login(): 
@@ -39,10 +50,19 @@ def StreamLoc (twitter_api, location):
     for tweet in stream:
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
-                tweetLs.append(tweet['extended_tweet']['full_text'])
-            else: tweetLs.append(tweet['text'])
+                 a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'])
+                 tweetLs.append(a)
+                 print(tweet['text'],tweet['created_at'])
+
+                #tweetLs.append(TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']))
+            else:
+                a =  TweetDB(tweet['text'],tweet['created_at'])
+                tweetLs.append(a)
+                print(tweet['text'],tweet['created_at'])
+                #tweetLs.append(TweetDB(tweet['text'],tweet['created_at']))
         except:
             pass
+        if(len(tweetLs) > 10): return tweetLs
     return tweetLs
     #print json.dumps(stream)
 
@@ -70,3 +90,4 @@ def sentiment():
     # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
     print(nltk.sentiment.util.demo_vader_instance("Very bad movie"))
+    #print(nltk.sentiment)
