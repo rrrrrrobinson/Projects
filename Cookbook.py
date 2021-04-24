@@ -19,16 +19,16 @@ class TweetDB:
         self.tweet = twStr[0] # tweet as string
         self.time = twStr[1][3] # time in '00:00:00' format
         self.date = twStr[1][0:3] # date in 'Wed Oct 10' format
-        self.wheatherSent = wheatherSent # weather sentiment
+        self.weatherSent = weatherSent # weather sentiment
 
     def setWeath(self, weathSent): # weather sentiment setter
-        self.weahterSent = weathSent
+        self.weatherSent = weathSent
 
 
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
 def oauth_login():
     keys = []
-    with open ('lorem.txt', 'rt') as myfile:  # Open lorem.txt for reading
+    with open ('keys.txt', 'rt') as myfile:  # Open lorem.txt for reading
         for myline in myfile:
             keys.append(myline)
     
@@ -71,11 +71,11 @@ def StreamLoc (twitter_api, location):
             pass
     return tweetLs
 
-def sentiment():
+def sentiment(tweetStr):
 
     # seperates strings into tokens
     tt = TweetTokenizer()
-    tokens = tt.tokenize("This is was")
+    tokens = tt.tokenize(tweetStr)
     print(tokens)
 
     # lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
@@ -94,5 +94,6 @@ def sentiment():
     # https://www.nltk.org/api/nltk.sentiment.html
     # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
-    print(nltk.sentiment.util.demo_vader_instance("Very bad movie"))
+    print(nltk.sentiment.util.demo_vader_instance(newString))
+    return (nltk.sentiment.util.demo_vader_instance(newString))
     #print(nltk.sentiment)
