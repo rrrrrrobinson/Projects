@@ -52,24 +52,24 @@ def StreamLoc (twitter_api, location):
     twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
     # Here we say the string stream will hold all of the statuses collected from the area location
     stream = twitter_stream.statuses.filter(locations='-74,40,-73,41')
+    c = 0
     for tweet in stream:
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
-                 a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'])
-                 tweetLs.append(a)
-                 print(tweet['text'],tweet['created_at'])
-
-                #tweetLs.append(TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']))
+                #  a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'])
+                #  tweetLs.append(a)
+                #****Above to be uncommented, below deleted once sentiment() is fully working
+                tweetSet = (tweet['extended_tweet']['full_text'], tweet['created_at'])
+                tweetLs.append(tweetSet)
             else:
-                a =  TweetDB(tweet['text'],tweet['created_at'])
-                tweetLs.append(a)
-                print(tweet['text'],tweet['created_at'])
-                #tweetLs.append(TweetDB(tweet['text'],tweet['created_at']))
+                #a =  TweetDB(tweet['text'],tweet['created_at'])
+                #tweetLs.append(a)
+                #****Above to be uncommented, below deleted once sentiment() is fully working
+                tweetSet = (tweet['text'], tweet['created_at'])
+                tweetLs.append(tweetSet)
         except:
             pass
-        if(len(tweetLs) > 10): return tweetLs
     return tweetLs
-    #print json.dumps(stream)
 
 def sentiment():
 
