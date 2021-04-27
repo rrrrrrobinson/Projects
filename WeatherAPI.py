@@ -23,37 +23,59 @@ def getWeatherData():
     time = item.split()[1]
     hours = time.split(':')[0]
     mins = time.split(':')[1]
-
     #round the second
     secs = round(float(time.split(':')[2]))
-
-
 
     #url for the http request
     #this is current weather api
     url = "http://api.openweathermap.org/data/2.5/weather?lat="+ str(lat) + "&lon=" + str(long) + "&appid=" + api_key + "&units=imperial"
-    response = requests.get(url,  auth=('user', 'pass'))
-    
+    response = requests.get(url,  auth=('user', 'pass'))    
     #store json object
     data = response.json()
 
     #check wether the location exist
     if data["cod"] != "404":
-
-        #return specific data from json object
-        weather = data["weather"]
+        #return specific data set from json object
+        weather_data = data["weather"]
         main = data["main"]
+        
         wind = data["wind"]
-     
+        
+        #get  single data needed
+        weather = weather_data[0]['description']
+        weather_id = weather_data[0]['id']
+        average_temp = round((main['temp_max'] + main['temp_min']) / 2)
+        wind_speed = wind['speed']
+        humidity = main['humidity']
     else:        
         print("404 City Not Found")
-
 
     #print datas needed and formatting 
     print("Date: " + date)
     print("Time: " + hours + ':' + mins + ':' + str(secs))
-    print("Weather: " + weather[0]['description'])
+    print("Location: " +  data['name'])
+    print("Weather: " + weather)
     print("Temperture(Fahrenheit): " + str(round(main['temp'])) + '(H:' + str(round(main['temp_max']))+ '\L:' + str(round(main['temp_min'])) + ')')
-    print("Wind Speed(MPH): " + str(wind['speed']))
+    print("Humidity: " + str(humidity) + "%")
+    print("Wind Speed(MPH): " + str(wind_speed))
+    print(' ')
+    
+    #determine wheather it is a good or bad weather
+    if (weather_id < 800):
+        print("The weather is bad")
 
-   
+    
+        
+    elif(weather_id >= 800):
+        if (average_temp >= 50 and average_temp <= 80 and wind_speed <= 6):
+            print("The weather is nice")
+            
+        elif (average_temp < 50):
+            print("It's chilly outside")
+            
+        else:
+            print("It's hot outside ")
+
+    
+        
+getWeatherData()
