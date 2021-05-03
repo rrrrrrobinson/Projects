@@ -96,4 +96,4 @@ def sentiment(tweetStr):
     print (a)
     return a
     #return (nltk.sentiment.util.demo_vader_instance(newString)) *******OLD IMPLEMENTATION, CURRENT IS ABOVE
-    
+   
