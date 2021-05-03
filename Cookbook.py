@@ -59,10 +59,10 @@ def StreamLoc (twitter_api, location):
     for tweet in stream:
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
-                a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']) 
+                a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'], weatherSent=getWeatherData()) 
                 tweetLs.append(a) # Here we create an instance of the class TweetDB with our tweets and append them to a return list
             else:
-                a =  TweetDB(tweet['text'],tweet['created_at'])
+                a =  TweetDB(tweet['text'],tweet['created_at'], weatherSent=getWeatherData())
                 tweetLs.append(a)
         except:
             pass
@@ -96,4 +96,4 @@ def sentiment(tweetStr):
     print (a)
     return a
     #return (nltk.sentiment.util.demo_vader_instance(newString)) *******OLD IMPLEMENTATION, CURRENT IS ABOVE
-   
+    
