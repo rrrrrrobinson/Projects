@@ -62,20 +62,25 @@ def getWeatherData():
     
     #determine wheather it is a good or bad weather
     if (weather_id < 800):
-        print("The weather is bad")
+        condition = 'This weather is bad'
+
+    elif (weather_id > 800 and weather_id < 803):
+        if (average_temp >= 45 and average_temp <= 80 and wind_speed <= 15):
+            condition = 'This weather is good'
+            
+        elif (average_temp < 45 or average_temp > 80 or wind_speed > 15):
+            condition = 'This weather is bad'
+
+    elif (weather_id >= 803):
+        if (average_temp >= 45 and average_temp <= 80 and wind_speed <= 15):
+            condition = 'This weather is ok'
+            
+        elif (average_temp < 45 or average_temp > 80 or wind_speed > 15):
+            condition = 'This weather is bad'
+
+            
+    return condition
 
     
         
-    elif(weather_id >= 800):
-        if (average_temp >= 50 and average_temp <= 80 and wind_speed <= 6):
-            print("The weather is nice")
-            
-        elif (average_temp < 50):
-            print("It's chilly outside")
-            
-        else:
-            print("It's hot outside ")
-
-    
-        
-getWeatherData()
+print(getWeatherData())
