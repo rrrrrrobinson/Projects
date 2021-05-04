@@ -2,10 +2,13 @@
 import json
 import requests
 import datetime
+import time
 
 def getWeatherData():
     #api key from openweather 
     api_key = "886f6a4c98d1b377418e02affd7ede7a"
+  
+
 
     #lat/long of Syracuse
     lat = 43.0481
@@ -51,14 +54,14 @@ def getWeatherData():
         print("404 City Not Found")
 
     #print datas needed and formatting 
-    print("Date: " + date)
-    print("Time: " + hours + ':' + mins + ':' + str(secs))
-    print("Location: " +  data['name'])
-    print("Weather: " + weather)
-    print("Temperture(Fahrenheit): " + str(round(main['temp'])) + '(H:' + str(round(main['temp_max']))+ '\L:' + str(round(main['temp_min'])) + ')')
-    print("Humidity: " + str(humidity) + "%")
-    print("Wind Speed(MPH): " + str(wind_speed))
-    print(' ')
+    # print("Date: " + date)
+    # print("Time: " + hours + ':' + mins + ':' + str(secs))
+    # print("Location: " +  data['name'])
+    # print("Weather: " + weather)
+    # print("Temperture(Fahrenheit): " + str(round(main['temp'])) + '(H:' + str(round(main['temp_max']))+ '\L:' + str(round(main['temp_min'])) + ')')
+    # print("Humidity: " + str(humidity) + "%")
+    # print("Wind Speed(MPH): " + str(wind_speed))
+    # print(' ')
     
     #determine wheather it is a good or bad weather
     if (weather_id < 800):
@@ -78,9 +81,31 @@ def getWeatherData():
         elif (average_temp < 45 or average_temp > 80 or wind_speed > 15):
             condition = 'BAD'
 
-            
+
     return condition
 
-    
-        
-print(getWeatherData())
+    #def WeatherTimer() 
+        #current = getWeatherData()
+        #after set amount time
+        #current = getWeatherData()
+        #pulls new weather data every 30 minutes  
+# class Weath():
+#         def __init__(self):
+#             self.condition = getWeatherData()
+
+#         def update(self):
+#             self.condition = getWeatherData()
+# class Weath:
+#     def __init__(self):
+#         self.condition = getWeatherData()
+#         #sent = Weath()
+
+#         start = time.time()
+#         while(True):
+#             if(int(time.time()-start) == 10):
+#                     self.condition = getWeatherData()
+#                     start = start + 10
+        #after timer
+  
+
+#print(getWeatherData())

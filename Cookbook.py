@@ -3,6 +3,7 @@ Weatherments Cookbook.
 Here we will define functions using Twitter API endpoints to use in our mining program to 
     make it more readable
 '''
+import WeatherAPI as wa
 import twitter
 import json # ~pretty~ print
 from functools import partial # maybe on this one dont know if well actually need it
@@ -15,7 +16,8 @@ from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import wordnet as wn
 
 class TweetDB:
-    def __init__(self, twStr, time, weatherSent='none'):
+    weth = wa.getWeatherData()
+    def __init__(self, twStr, time, weatherSent=weth):
         ls = time.split()
         self.tweetSent = sentiment(twStr) # Setniment of tweet
         self.tweet = twStr # tweet as string
@@ -51,18 +53,20 @@ def oauth_login():
 # twitter_api is the twitter object your collecting from and location is the geocode of the focus area
 def StreamLoc (twitter_api, location):
     tweetLs = []
+
     # Here we created our stream object
     twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
     # Here we say stream will hold all of the statuses collected from the area, location
     stream = twitter_stream.statuses.filter(locations='-74,40,-73,41')
-
+    
     for tweet in stream:
+        #timer that recalls WeatherTimer
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
-                a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at'], weatherSent=getWeatherData()) 
+                a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']) 
                 tweetLs.append(a) # Here we create an instance of the class TweetDB with our tweets and append them to a return list
             else:
-                a =  TweetDB(tweet['text'],tweet['created_at'], weatherSent=getWeatherData())
+                a =  TweetDB(tweet['text'],tweet['created_at'])
                 tweetLs.append(a)
         except:
             pass
