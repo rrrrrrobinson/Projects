@@ -21,7 +21,7 @@ class TweetDB:
         ls = time.split()
         self.tweetSent = sentiment(twStr) # Setniment of tweet
         self.tweet = twStr # tweet as string
-        self.time = ls[3] # time in '00:00:00' format
+        self.time = ls[3] # time in '00:00:00' format UTC
         self.date = ' '.join(ls[0:3]) # date in 'Wed Oct 10' format
         self.weatherSent = weatherSent # weather sentiment
 

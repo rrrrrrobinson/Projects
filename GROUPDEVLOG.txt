@@ -7,3 +7,7 @@ Hunter 4/23
 		We need to finish the weather api and integrate it (add weatherSents in TweetCollector)
 		We need to decide how to limit the streaming api (i.e. when to stop collecting)
 		
+Hunter 5/3
+	We integrated the weather sentiment into our TweetDB object.
+	**** Before we deploy and start collecting we have to refine our tweet sentiment analysis to	
+			limit the amount of neutrals we get.

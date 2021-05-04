@@ -8,8 +8,6 @@ def getWeatherData():
     #api key from openweather 
     api_key = "886f6a4c98d1b377418e02affd7ede7a"
   
-
-
     #lat/long of Syracuse
     lat = 43.0481
     long = -76.1474
