@@ -1,10 +1,11 @@
 #pip install virtualenvwrapper
 from pymongo import MongoClient
+import Cookbook
 
 client = MongoClient("mongodb+srv://user0:gKGDWJlHy6qGZrhx@weathermentsdb.tdbnp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 db = client.get_database('WeathermentsDB')
-test = db.TweetData # tweetData collection
+dbTweets = db.TweetData # tweetData collection
 
 '''
 print(test.count_documents({})) #count number of documents, {} can be used to filter ex. 'name':'test'
@@ -58,6 +59,7 @@ class Person:
     self.name = name
     self.age = age
 
+'''
 p1 = Person("mike", 133)
 
 
@@ -67,3 +69,13 @@ print("found")
 
 for i in (list(test.find())):
     print (i)
+'''
+
+def saveToDB(tweet):
+    dbTweets.insert_one(tweet.__dict__)
+    return "tweet collected"
+
+
+def saveToDBWithWeather(tweet):
+    tweet.setWeath(WeatherAPI.getWeatherData())
+    dbTweets.insert_one(tweet.__dict__)
