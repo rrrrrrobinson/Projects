@@ -14,6 +14,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import *
 from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import wordnet as wn
+from nltk.corpus import stopwords
 
 class TweetDB:
     weth = wa.getWeatherData()
@@ -75,6 +76,11 @@ def StreamLoc (twitter_api, location):
 
 
 def sentiment(tweetStr):
+
+    # import stopwords to eliminate them from the sting before sentiment analysis
+    stop_words = stopwords.words('english')
+
+
     # seperates strings into tokens
     tt = TweetTokenizer()
     tokens = tt.tokenize(tweetStr)
@@ -84,7 +90,7 @@ def sentiment(tweetStr):
     # >>> import nltk
     # >>> nltk.download('wordnet')
     wnl = WordNetLemmatizer()
-    newSet = [wnl.lemmatize(t) for t in tokens]
+    newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words]
     newString = ' '.join(newSet)
     print(newString)
 
@@ -101,3 +107,5 @@ def sentiment(tweetStr):
     return a
     #return (nltk.sentiment.util.demo_vader_instance(newString)) *******OLD IMPLEMENTATION, CURRENT IS ABOVE
     
+
+
