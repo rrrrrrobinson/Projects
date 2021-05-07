@@ -11,3 +11,7 @@ Hunter 5/3
 	We integrated the weather sentiment into our TweetDB object.
 	**** Before we deploy and start collecting we have to refine our tweet sentiment analysis to	
 			limit the amount of neutrals we get.
+
+Hunter 5/6
+	We got our nuetrals on point. everything is looking really good and we should be ready to deploy soon
+		I just want to split emojis and then we are good to deploy and collect
