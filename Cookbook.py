@@ -60,7 +60,7 @@ def StreamLoc (twitter_api, location):
     # Here we created our stream object
     twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
     # Here we say stream will hold all of the statuses collected from the area, location
-    stream = twitter_stream.statuses.filter(locations='-74,40,-73,41')
+    stream = twitter_stream.statuses.filter(locations=location)
     
     for tweet in stream: # For every tweet we collect, we create a TweetDB object
         try:
