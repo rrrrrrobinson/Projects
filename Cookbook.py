@@ -14,13 +14,17 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk import *
 from nltk.corpus import sentiwordnet as swn
 from nltk.corpus import wordnet as wn
+from nltk.corpus import words
 from nltk.corpus import stopwords
+import string
 
 class TweetDB:
     weth = wa.getWeatherData()
     def __init__(self, twStr, time, weatherSent=weth):
         ls = time.split()
-        self.tweetSent = sentiment(twStr) # Setniment of tweet
+        sent = sentiment(twStr)
+        #if not sent == 0:
+        self.tweetSent = sent # Setniment of tweet
         self.tweet = twStr # tweet as string
         self.time = ls[3] # time in '00:00:00' format UTC
         self.date = ' '.join(ls[0:3]) # date in 'Wed Oct 10' format
@@ -65,10 +69,15 @@ def StreamLoc (twitter_api, location):
         try:
             if tweet['truncated']: # If a tweet is truncated, get the full thing
                 a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']) 
-                tweetLs.append(a) # Here we create an instance of the class TweetDB with our tweets and append them to a return list
+                if a.tweetSent == 0:
+                    pass
+                else: tweetLs.append(a) # Here we create an instance of the class TweetDB with our tweets and append them to a return list
             else:
                 a =  TweetDB(tweet['text'],tweet['created_at'])
-                tweetLs.append(a)
+                if a.tweetSent == 0:
+                    pass
+                else: tweetLs.append(a)
+
         except:
             pass
         if (len(tweetLs) > 10): return tweetLs # this is just a tester it will stop after 10 tweets are collected
@@ -78,19 +87,30 @@ def StreamLoc (twitter_api, location):
 def sentiment(tweetStr):
 
     # import stopwords to eliminate them from the sting before sentiment analysis
-    stop_words = stopwords.words('english')
-
+    stop_words = stopwords.words('english', 'spanish')
+    print(stop_words)
+    vocab = words.words()
 
     # seperates strings into tokens
-    tt = TweetTokenizer()
-    tokens = tt.tokenize(tweetStr)
+
+    #tt = TweetTokenizer()
+    tokens = tokenize.word_tokenize(tweetStr) # a regular tokenizer
+    #tokens = tt.tokenize(tweetStr)
     print(tokens)
 
     # lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
     # >>> import nltk
     # >>> nltk.download('wordnet')
+    #startingTwLen = len(tokens)
+    after = len([t for t in tokens if t not in stop_words and t not in string.punctuation and t in vocab])
+    if after == 0: # If no words in the tweet are recognized by
+        return 0
+        print('***Nothing recognizable***')
+    
+
+
     wnl = WordNetLemmatizer()
-    newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words]
+    newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words and t not in string.punctuation]
     newString = ' '.join(newSet)
     print(newString)
 

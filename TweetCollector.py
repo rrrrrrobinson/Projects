@@ -17,4 +17,4 @@ tweets = cb.StreamLoc(twitter_api, '-74,40,-73,41') #NY, NY box
 for i in tweets:
     print("sentiment " + str(i.tweetSent) + " tweetstr " + str(i.tweet) + " time " + str(i.time) + " date " \
              + str(i.date) + " weathersent " + str(i.weatherSent))
-    print(DB.saveToDB(i))
+    #print(DB.saveToDB(i))
