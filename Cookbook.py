@@ -77,7 +77,7 @@ def StreamLoc (twitter_api, location):
                 else: tweetLs.append(a)
         except:
             pass
-        #if (len(tweetLs) > 10): return tweetLs # this is just a tester it will stop after 10 tweets are collected
+        if (len(tweetLs) > 500): return tweetLs # this is just a tester it will stop after 10 tweets are collected
     return tweetLs
 
 
