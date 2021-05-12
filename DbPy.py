@@ -80,6 +80,11 @@ def saveToDBWithWeather(tweet):
     tweet.setWeath(WeatherAPI.getWeatherData())
     dbTweets.insert_one(tweet.__dict__)
 
+def pullByWeather(sent):
+    a = dbTweets.find({"weatherSent" : sent})
+    return a
+
+
 ''' get all them tweeeeets
 a = dbTweets.find()
 for i in a:
