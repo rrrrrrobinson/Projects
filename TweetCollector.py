@@ -19,4 +19,5 @@ tweets = cb.StreamLoc(twitter_api, '-76.33,42.90,-75.87,43.14') #NY, NY box
 for i in tweets:
     print("sentiment " + str(i.tweetSent) + " tweetstr " + str(i.tweet) + " time " + str(i.time) + " date " \
              + str(i.date) + " weathersent " + str(i.weatherSent))
-    #print(DB.saveToDB(i)) # Here we store our TweetDB objects to our database
+    print(DB.saveToDB(i)) # Here we store our TweetDB objects to our database
+print(len(tweets))
