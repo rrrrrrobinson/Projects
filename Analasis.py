@@ -1,6 +1,7 @@
 import DbPy as DB
 import networkx as nx
 import math
+import matplotlib.pyplot as plt
 
 
 raw_weath_ok = DB.pullByWeather("OK")# all ok weather #find({"weatherSent" : "OK"})
@@ -89,7 +90,7 @@ for i in raw_weath_bad:
             sentMax = ('neu : {0}'.format(i['tweetSent']['neu']))
             weath_bad_neu.append(i) 
 
-G = nx.Graph
+G = nx.Graph()
 ok = weath_ok_pos+weath_ok_neg+weath_ok_neu+weath_ok_posneu+weath_ok_negneu
 good = weath_good_pos+weath_good_neg+weath_good_neu+weath_good_posneu+weath_good_negneu
 bad = weath_bad_pos+weath_bad_neg+weath_bad_neu+weath_bad_posneu+weath_bad_negneu
@@ -108,11 +109,81 @@ print("********BAD************** \n Positive length: {0} \n Negative length: {1}
 # set of 5 sets, each set corresponding to pos, neu, neg, posNeu, negNeu
 
 
+color_map = []
+#G.add_edge(1,v_of_edge=2)
+for i in range(len(ok) - 1):
+#a = [(ok[i], ok[(i+1)], abs(ok[i]['tweetSent']['pos'] - ok[(i+1)]['tweetSent']['pos']) ) for i in range(ok[i:] -1)]
+    u = ok[i]
+    v = ok[i+1]
+    w = abs(u['tweetSent']['pos'] - v['tweetSent']['pos'])
+    #print(v.get('_id'))
+    
+    ucolor = 'black'
+    if u in weath_ok_pos: 
+        a = '1'+str(u.get('_id'))
+        #u.get('_id') = '1'+str(u.get('_id'))
+    elif u in weath_ok_neg: 
+        a = '2'+str(u.get('_id'))
+       # u.get('_id') = '2'+u.get('_id')
+        #colormap.append('red')
+    elif u in weath_ok_neu:
+        a =  '3'+str(u.get('_id'))
+       # u.get('_id') = '3'+u.get('_id')
+        #colormap.append('grey')
+    elif u in weath_ok_posneu: 
+        a = '4'+str(u.get('_id'))
+        #u.get('_id') = '4'+u.get('_id')
+        #colormap.append('lightblue')
+    else:
+        a = '5'+str(u.get('_id'))
+        #u.get('_id') = '5'+u.get('_id') 
+        #colormap.append('lightred')
+    vcolor = 'black'
+    if v in weath_ok_pos: 
+        b ='1'+str(v.get('_id'))
+       # v.get('_id') = '1'+v.get('_id')
+    elif v in weath_ok_neg: 
+        b = '2'+str(v.get('_id'))
+        #v.get('_id') = '2'+v.get('_id')
+    elif v in weath_ok_neu: 
+        b = '3'+str(v.get('_id'))
+        #v.get('_id') = '3'+v.get('_id')
+    elif v in weath_ok_posneu: 
+        b = '4'+str(v.get('_id'))
+        #v.get('_id') = '4'+v.get('_id')
+    else: 
+        b = '5'+str(v.get('_id'))
+       # v.get('_id') = '5'+v.get('_id')
+    
+    #G.add_node(u.get('_id'), color=ucolor)
+    #G.add_node(v.get('_id'), color=vcolor)
+    
+    G.add_edge(u_of_edge=a, v_of_edge=b, weight=w*5)
+    #G.add_edge(u, v, weight=w)
 
+for i in G:
+    if i[0] == 1:
+        color_map.append('blue')
+    elif i[0] == 2:
+        color_map.append('red')  
+    elif i[0] == 3:
+        color_map.append('grey')
+    elif i[0] == 4:
+        color_map.append('purple')  
+    elif i[0] == 5:
+        color_map.append('yellow') 
 
-#for i in range(len(ok) - 1):
-    #w = abs(ok[i]['tweetSent']['pos'] - ok[i+1]['tweetSent']['pos'])
+print(len(ok))
+print(len(good))
+print(len(bad))
+print()
+
+print(len(G.edges))
+print(len(G.nodes))
+#nx.coloring.greedy_color(G, strategy="largest_first")
 #G.add_weighted_edges_from([[(i, i+1, abs(ok[i]['tweetSent']['pos'] - ok[i+1]['tweetSent']['pos'])) for i in range(len(ok) - 1)]]
        # [ (ok[i], ok[i+1], w)])
-
-
+pos = nx.spring_layout
+nx.draw(G,  node_color=color_map)
+plt.show()
+plt.savefig("okgraph.png")

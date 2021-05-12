@@ -60,7 +60,7 @@ def getWeatherData():
     # print("Humidity: " + str(humidity) + "%")
     # print("Wind Speed(MPH): " + str(wind_speed))
     # print(' ')
-    
+    condition = 'NONE'
     #determine wheather it is a good or bad weather
     if (weather_id < 800):
         condition = 'BAD'
