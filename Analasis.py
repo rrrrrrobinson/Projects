@@ -1,4 +1,6 @@
 import DbPy as DB
+import networkx as nx
+import math
 
 
 raw_weath_ok = DB.pullByWeather("OK")# all ok weather #find({"weatherSent" : "OK"})
@@ -87,16 +89,30 @@ for i in raw_weath_bad:
             sentMax = ('neu : {0}'.format(i['tweetSent']['neu']))
             weath_bad_neu.append(i) 
 
+G = nx.Graph
+ok = weath_ok_pos+weath_ok_neg+weath_ok_neu+weath_ok_posneu+weath_ok_negneu
+good = weath_good_pos+weath_good_neg+weath_good_neu+weath_good_posneu+weath_good_negneu
+bad = weath_bad_pos+weath_bad_neg+weath_bad_neu+weath_bad_posneu+weath_bad_negneu
+
 print()
-print("********OK************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_ok_pos), len(weath_ok_neg), len(weath_ok_neu), len(weath_ok_posneu), len(weath_ok_negneu)))
+print("********OK************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_ok_pos)/len(ok), len(weath_ok_neg)/len(ok), len(weath_ok_neu)/len(ok), len(weath_ok_posneu)/len(ok), len(weath_ok_negneu)/len(ok)))
     
 print("\n ************************************* \n")
 
-print("********GOOD************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_good_pos), len(weath_good_neg), len(weath_good_neu), len(weath_good_posneu), len(weath_good_negneu)))
+print("********GOOD************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_good_pos)/len(good), len(weath_good_neg)/len(good), len(weath_good_neu)/len(good), len(weath_good_posneu)/len(good), len(weath_good_negneu)/len(good)))
 
 print("\n ************************************* \n")
 
-print("********BAD************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_bad_pos), len(weath_bad_neg), len(weath_bad_neu), len(weath_bad_posneu), len(weath_bad_negneu)))
+print("********BAD************** \n Positive length: {0} \n Negative length: {1} \n Neutral length: {2} \n Pos Neutral length: {3} \n Neg Neutral length: {4}".format(len(weath_bad_pos)/len(bad), len(weath_bad_neg)/len(bad), len(weath_bad_neu)/len(bad), len(weath_bad_posneu)/len(bad), len(weath_bad_negneu)/len(bad)))
 #weath_ok = (raw_weath_ok.find({"tweetSent" : ""}))
 # set of 5 sets, each set corresponding to pos, neu, neg, posNeu, negNeu
+
+
+
+
+#for i in range(len(ok) - 1):
+    #w = abs(ok[i]['tweetSent']['pos'] - ok[i+1]['tweetSent']['pos'])
+#G.add_weighted_edges_from([[(i, i+1, abs(ok[i]['tweetSent']['pos'] - ok[i+1]['tweetSent']['pos'])) for i in range(len(ok) - 1)]]
+       # [ (ok[i], ok[i+1], w)])
+
 
