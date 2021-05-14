@@ -161,7 +161,7 @@ for i in range(len(ok) - 1):
     #pset = [(ok[i], b, abs(ok[i]['tweetSent']['pos'] - b['tweetSent']['pos'])) for b in ok[i:]]
     u = ok[i]
     v = ok[i+1]
-    w = abs(u['tweetSent']['neg'] - v['tweetSent']['neg'])
+    w = abs(u['tweetSent']['pos'] - v['tweetSent']['pos'])
     #print(v.get('_id'))
     
     ucolor = 'black'
@@ -204,7 +204,13 @@ for i in range(len(ok) - 1):
     #G.add_node(u.get('_id'), color=ucolor)
     #G.add_node(v.get('_id'), color=vcolor)
     #pset = [()]
-    G.add_edge(u_of_edge=a, v_of_edge=b, weight=w*10)
+    if((u in weath_ok_pos and v in weath_ok_pos) or (u in weath_ok_posneu and v in weath_ok_pos) or (u in weath_ok_pos and v in weath_ok_posneu)):
+        G.add_edge(u_of_edge=a, v_of_edge=b, weight=w)
+    elif((u in weath_ok_neg and v in weath_ok_neg) or (u in weath_ok_negneu and v in weath_ok_neg) or (u in weath_ok_neg and v in weath_ok_negneu)):
+        G.add_edge(u_of_edge=a, v_of_edge=b, weight=w)
+    if((u in weath_ok_neu and v in weath_ok_neu) or (u in weath_ok_posneu and v in weath_ok_neu) or (u in weath_ok_neu and v in weath_ok_posneu) \
+        or (u in weath_ok_negneu and v in weath_ok_neu) or (u in weath_ok_neu and v in weath_ok_negneu)):
+        G.add_edge(u_of_edge=a, v_of_edge=b, weight=w)
     #G.add_edge(u, v, weight=w) """
 
 for i in G:
@@ -229,7 +235,7 @@ print(len(G.nodes))
 #nx.coloring.greedy_color(G, strategy="largest_first")
 #G.add_weighted_edges_from([[(i, i+1, abs(ok[i]['tweetSent']['pos'] - ok[i+1]['tweetSent']['pos'])) for i in range(len(ok) - 1)]]
        # [ (ok[i], ok[i+1], w)])
-pos = nx.spring_layout
+pos = nx.spring_layout(G)
 nx.draw(G,  node_size=10, node_color=color_map)
 plt.show()
 plt.savefig("okgraph.png")

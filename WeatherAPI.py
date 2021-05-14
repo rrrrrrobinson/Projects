@@ -60,7 +60,7 @@ def getWeatherData():
     # print("Humidity: " + str(humidity) + "%")
     # print("Wind Speed(MPH): " + str(wind_speed))
     # print(' ')
-    
+    condition = 'NONE'
     #determine weather
     # < 800 accounts for rain, snow, thundrstorms, and all weather types in between
     if (weather_id < 800):
