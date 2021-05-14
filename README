@@ -4,3 +4,5 @@ Weatherments is a software that combines analyisis of tweet setniments using NLT
 For pip install form requirments.txt
 1. open directory
 2. "pip install -r requirements.txt" in command promt and the neccesary packages will be delivered
+
+Run the Python script Req.py to download the necessary NLTK corpora
