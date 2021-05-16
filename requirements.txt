@@ -15,3 +15,4 @@ tqdm==4.60.0
 twitter==1.18.0
 urllib3==1.26.4
 zope.interface==5.4.0
+scipy==1.6.3

@@ -19,6 +19,8 @@ from nltk.corpus import stopwords
 import string
 
 class TweetDB:
+    # This is our datatype to be sent to our databse containing a tweet, its sentiment, the time and date its created, 
+    #       and the sentiment of the weather at the time of collection
     weth = wa.getWeatherData() # Create a local variable of the weather sentiment by making a call to the Weather API
     def __init__(self, twStr, time, weatherSent=weth):
         ls = time.split() # Splitting the time returned by twitter into the format we want
@@ -28,11 +30,10 @@ class TweetDB:
         self.date = ' '.join(ls[0:3]) # date in 'Wed Oct 10' format
         self.weatherSent = weatherSent # weather sentiment
 
-    #def setWeath(self, weathSent): # weather sentiment setter
-    #    self.weatherSent = weathSent
 
 
 #This oath function was taken from the Ch. 9 Cookbook of our textbook 
+    #https://github.com/mikhailklassen/Mining-the-Social-Web-3rd-Edition/blob/master/notebooks/Chapter%209%20-%20Twitter%20Cookbook.ipynb
 def oauth_login():
     keys = []
     with open ('keys.txt', 'rt') as myfile:  # Open keys.txt for reading
@@ -53,13 +54,13 @@ def oauth_login():
 
 
 # This function uses the stream endpoint to stream tweets from a specified location
-# twitter_api is the twitter object your collecting from and location is the geocode of the focus area
+# twitter_api is the twitter object your collecting from and location is the SW and NE coners od abounding box of the focus area
 def StreamLoc (twitter_api, location):
     tweetLs = [] # return list of tweets, filled below
 
     # Here we created our stream object
     twitter_stream = twitter.TwitterStream(auth=twitter_api.auth)
-    # Here we say stream will hold all of the statuses collected from the area, location
+    # Here we set a filter for our stream to only collect tweets from the location specified and put them in the list 'stream'
     stream = twitter_stream.statuses.filter(locations=location)
     
     for tweet in stream: # For every tweet we collect, we create a TweetDB object
@@ -67,41 +68,44 @@ def StreamLoc (twitter_api, location):
             if tweet['truncated']: # If a tweet is truncated, get the full thing
                 # Here we create an instance of the class TweetDB with our tweets
                 a = TweetDB(tweet['extended_tweet']['full_text'], tweet['created_at']) 
+                # The polarity score of a tweet is found at the creation of each TweetDB object
                 if a.tweetSent == 0: # If the tweet did not have any recognizable feature, we do not append it
                     pass 
-                else: tweetLs.append(a) # We then append our TweetDB object to a return list
+                else: tweetLs.append(a) # Else, we append the TweetDB object to a return list
             else:
-                a =  TweetDB(tweet['text'],tweet['created_at']) # Untruncated tweet
+                a =  TweetDB(tweet['text'],tweet['created_at']) # Untruncated tweet, do the same as above 
                 if a.tweetSent == 0:
                     pass
                 else: tweetLs.append(a)
         except:
             pass
-        if (len(tweetLs) > 500): return tweetLs # collect in batches of 500
-    return tweetLs
+        if (len(tweetLs) > 500): return tweetLs # We collect in batches of 500, after which it is re-run
+    return tweetLs # This function returns a list of TweetDB objects
 
 
+# This function takes in a tweet in the form of a string and tokenizes, lemmatizes, checks for recognizable words, and then
+#       gives it a polarity score using the method Vader employs
 def sentiment(tweetStr):
 
-    # import stopwords to eliminate them from the sting before sentiment analysis
-    stop_words = stopwords.words('english')
+    stop_words = stopwords.words('english') # stop_words is a list of english words marked as stop words by nltk
     vocab = words.words() # vocab is the list of words in nltk
 
     tokens = tokenize.word_tokenize(tweetStr) # a regular tokenizer to break out string into tokens
+    # We chose not to use the TweetTokenizer because we did not want to preserve hashtags attached to words
     print (tokens)
-
 
     # lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
     # >>> import nltk
     # >>> nltk.download('wordnet')
     wnl = WordNetLemmatizer()
     # Here we lemmatize the words so long as they are not stopwords or punctuation 
-    newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words and t not in string.punctuation]
+    newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words \
+         and t not in string.punctuation]
     after = len([lt for lt in newSet if lt in vocab])
     if after == 0: # If no words in the tweet that arent stopwords, puncuation or aren't recognized by NLTK
         return 0 # return 0 to be caught in our StreamLoc() functino so the tweet is not added to the list TweetDB objects
     newString = ' '.join(newSet) # rejoin our words with a space between each
-    #print(newString)
+    
 
     # not needed?
     # >>> nltk.download('sentiwordnet')
@@ -112,9 +116,8 @@ def sentiment(tweetStr):
     # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
     a = SentimentIntensityAnalyzer().polarity_scores(newString)
-    print (a)
-    return a
-    #return (nltk.sentiment.util.demo_vader_instance(newString)) *******OLD IMPLEMENTATION, CURRENT IS ABOVE
+    print (a) # Lets us see what things are getting scored at while the program is running
+    return a # This function returns a polarity score dictionary in the from '{'neg': 0.0, 'neu': 0.0, 'pos': 0.0, 'compound': 0.0}
     
 
 
