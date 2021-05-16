@@ -10,6 +10,7 @@ Before running our program we have to install some dependencies:
     Then we have to download the required NLTK corpora:
         1. in the directory Weatherments 
         2. "python Req.py" in command prompt and the necessary corpora will be downloaded
+        ***NOTE: this my take a moment to finish dowloading
 
 Now that all of our dependencies are installed:
 
