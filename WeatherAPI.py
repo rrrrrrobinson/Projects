@@ -15,8 +15,7 @@ def getWeatherData():
     # to record date and time of when data were collect
     date_time = datetime.datetime.now()
 
-    # to round seconds to then nearest whole number
-    # cast date_time to str
+    # to round seconds to then nearest whole number and cast date_time to str
     item = str(date_time)
     
     # take out date and time seperately and split hour, mintues and second
@@ -27,8 +26,7 @@ def getWeatherData():
     # round the second
     secs = round(float(time.split(':')[2]))
 
-    # url for the http request
-    # this is current weather api
+    # url for the http request and make current weather api call
     url = "http://api.openweathermap.org/data/2.5/weather?lat="+ str(lat) + "&lon=" + str(long) + "&appid=" + api_key + "&units=imperial"
     response = requests.get(url,  auth=('user', 'pass'))    
     # store json object
@@ -51,17 +49,8 @@ def getWeatherData():
     else:        
         print("404 City Not Found")
 
-    #print datas needed and formatting 
-    # print("Date: " + date)
-    # print("Time: " + hours + ':' + mins + ':' + str(secs))
-    # print("Location: " +  data['name'])
-    # print("Weather: " + weather)
-    # print("Temperture(Fahrenheit): " + str(round(main['temp'])) + '(H:' + str(round(main['temp_max']))+ '\L:' + str(round(main['temp_min'])) + ')')
-    # print("Humidity: " + str(humidity) + "%")
-    # print("Wind Speed(MPH): " + str(wind_speed))
-    # print(' ')
+
     condition = 'NONE'
-    #determine weather
     # < 800 accounts for rain, snow, thundrstorms, and all weather types in between
     if (weather_id < 800):
         condition = 'BAD'
@@ -82,31 +71,4 @@ def getWeatherData():
         elif (average_temp < 45 or average_temp > 80 or wind_speed > 15):
             condition = 'BAD'
 
-
     return condition
-
-    #def WeatherTimer() 
-        #current = getWeatherData()
-        #after set amount time
-        #current = getWeatherData()
-        #pulls new weather data every 30 minutes  
-# class Weath():
-#         def __init__(self):
-#             self.condition = getWeatherData()
-
-#         def update(self):
-#             self.condition = getWeatherData()
-# class Weath:
-#     def __init__(self):
-#         self.condition = getWeatherData()
-#         #sent = Weath()
-
-#         start = time.time()
-#         while(True):
-#             if(int(time.time()-start) == 10):
-#                     self.condition = getWeatherData()
-#                     start = start + 10
-        #after timer
-  
-
-#print(getWeatherData())
