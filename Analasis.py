@@ -175,7 +175,7 @@ for i in range(len(good) - 1):
     # We divide the edge weight by 2 here to make our graph look cleaner and more similar to the other days as we have much less GOOD day tweets thatn BAD and OK
     Ggood.add_edge(u_of_edge=a, v_of_edge=b, weight=abs(u['tweetSent']['pos'] - v['tweetSent']['pos'])/2)
 
-
+# Attaching color identifiers for OK day
 for i in range(len(ok) - 1):  
     u = ok[i]
     v = ok[i+1]
@@ -205,7 +205,7 @@ for i in range(len(ok) - 1):
     Gok.add_edge(u_of_edge=a, v_of_edge=b, weight=abs(u['tweetSent']['neu'] - v['tweetSent']['neu']))
 
 
-
+# Attaching color identifiers for BAD day
 for i in range(len(bad) - 1):
     u = bad[i]
     v = bad[i+1]
@@ -273,12 +273,15 @@ for i in Gbad: # Same mapping as above
 
 plt.figure('GOOD Day')
 nx.draw(Ggood,  node_size=10, node_color=color_mapg)
+plt.savefig("goodgraph.png")
 
 plt.figure('OK Day')
 nx.draw(Gok,  node_size=10, node_color=color_map)
+plt.savefig("okgraph.png")
 
 plt.figure('BAD Day')
 nx.draw(Gbad,  node_size=10, node_color=color_mapb)
+plt.savefig("badgraph.png")
 
 plt.show()
-plt.savefig("okgraph.png")
+
