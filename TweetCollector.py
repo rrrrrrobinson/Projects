@@ -10,8 +10,8 @@ twitter_api = cb.oauth_login()
 print(twitter_api)
 # Here we call our function that implements Twitter's Streaming API on 2 diagonal corners of Syracuse's corrdinates
 tweets = cb.StreamLoc(twitter_api, '-76.33,42.90,-75.87,43.14') #Syracuse, NY SW and NE corner
-# tweets is a list of TweetDB type objects containing the tweet, the time and date it was created,
-#   the sentiment of the tweet, and the sentiment of the weather at the time of creation
+# Tweets is a list of TweetDB type objects containing the tweet, the time and date it was created,
+# The sentiment of the tweet, and the sentiment of the weather at the time of creation
 
 for i in tweets:
     # A print statement to get a glimpse of our TweetDB objects as theyre added to the database

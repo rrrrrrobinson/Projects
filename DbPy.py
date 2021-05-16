@@ -11,6 +11,9 @@ db = client.get_database('WeathermentsDB')
 dbTweets = db.TweetData 
 
 # Save a tweet object to the databse we established above
+def pullAllTweets():
+    return dbTweets.find({})
+
 def saveToDB(tweet):
     # add tweetobject to remote database after transforming into a dicitonary
     dbTweets.insert_one(tweet.__dict__)
