@@ -1,6 +1,15 @@
 import DbPy as DB
 from nltk import *
+import twitter
+import Cookbook as cb
 
+
+twitter_api = cb.oauth_login()
+
+test_tweets = cb.getTweetsFromPast5Days(twitter_api, '-76.33,42.90,-75.87,10mi', '5/16/2021')
+
+
+'''
 def makeTweetArray(dictTweets, arrayTweets):
     for i in dictTweets:
         arrayTweets.append((i['tweet'],i['weatherSent']))
@@ -54,4 +63,4 @@ training_set = [(extract_features(d), c) for (d,c) in tweetsFiltered]
 # Classifys the training set utilzing the Niave Bayes Classifer
 classifier = NaiveBayesClassifier.train(training_set)
 # Shows the most prominent/infleuncial words on a given weather type day
-classifier.show_most_informative_features(100)
+classifier.show_most_informative_features(100)'''

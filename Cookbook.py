@@ -118,6 +118,12 @@ def sentiment(tweetStr):
     a = SentimentIntensityAnalyzer().polarity_scores(newString)
     print (a) # Lets us see what things are getting scored at while the program is running
     return a # This function returns a polarity score dictionary in the from '{'neg': 0.0, 'neu': 0.0, 'pos': 0.0, 'compound': 0.0}
+
+def getTweetsFromPast5Days(twitter_api, location,date):
+    results = twitter_api.search.tweets(q='',count=100, geocode=location)['statuses']
+    print(results)
+
+
     
 
 
