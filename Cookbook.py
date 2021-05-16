@@ -120,15 +120,15 @@ def sentiment(tweetStr):
     return a # This function returns a polarity score dictionary in the from '{'neg': 0.0, 'neu': 0.0, 'pos': 0.0, 'compound': 0.0}
 
 def getTweetsFromPast5Days(twitter_api):
+
     q = '""'
+    # Get tweets based on location and date
     results = twitter_api.search.tweets(q=q, count=100, until = '2021-05-12', geocode='43.035198,-76.139297,10mi')['statuses']
     tweets  = []
     for i in results:
-        tweets.append((i['text'], i['created_at']))
+        tweets.append(i['text'])
     
-
-    for i in tweets:
-        print(i)
+    return tweets
 
 
     

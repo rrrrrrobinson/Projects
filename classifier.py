@@ -6,10 +6,19 @@ import Cookbook as cb
 
 twitter_api = cb.oauth_login()
 
-test_tweets = cb.getTweetsFromPast5Days(twitter_api)
+# test_tweets = cb.getTweetsFromPast5Days(twitter_api)
+test_tweets = ['Syracuse hung in there in the first but their shot selection has to be better. Played catch with McElroy too much.… https://t.co/K1xGaCIiix',
+               'It really just be me and my son he’s my only friend',
+               '@mlhelmke1 People need to get the vaccine to protect themselves and those in their inner circle and those that choo… https://t.co/raeOJ1Zp1h',
+               '@TheRickyDavila Wouldn’t be surprised to see some people dancing in the streets!',
+               '@MarkRuffalo once again bring the hero we all need.',
+               'RT @lwcesf: .@binghamtonu and @PrezHarvey are failing their students of color by not providing a more diverse and accessible counseling cen…',
+               '@sexybulba As well you should angel you’re perfect',
+               'Safe Travels: Sleep in the trees with these magical Upstate NY treehouses https://t.co/nBkbejK12D']
+               
 
 
-'''
+
 def makeTweetArray(dictTweets, arrayTweets):
     for i in dictTweets:
         arrayTweets.append((i['tweet'],i['weatherSent']))
@@ -63,4 +72,8 @@ training_set = [(extract_features(d), c) for (d,c) in tweetsFiltered]
 # Classifys the training set utilzing the Niave Bayes Classifer
 classifier = NaiveBayesClassifier.train(training_set)
 # Shows the most prominent/infleuncial words on a given weather type day
-classifier.show_most_informative_features(100)'''
+classifier.show_most_informative_features(100)
+
+for t in test_tweets:
+    # print "{0} : {1}".format(t, classifier.classify(extract_features(t.split())))
+    print ("{0} : {1}".format(t, classifier.classify(extract_features([e.lower() for e in t.split() if len(e) >= 3]))))
