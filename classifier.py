@@ -6,7 +6,7 @@ import Cookbook as cb
 
 twitter_api = cb.oauth_login()
 
-test_tweets = cb.getTweetsFromPast5Days(twitter_api, '-76.33,42.90,-75.87,10mi', '5/16/2021')
+test_tweets = cb.getTweetsFromPast5Days(twitter_api)
 
 
 '''
