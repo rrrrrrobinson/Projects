@@ -119,7 +119,6 @@ def getTweetsFromPast5Days(twitter_api):
     tweets  = []
     for i in results:
         tweets.append(i['text'])
-    
     return tweets
 
 
