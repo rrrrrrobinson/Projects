@@ -270,7 +270,7 @@ for i in Gbad: # Same mapping as above
     elif i[0] == '5':
         color_mapb.append('yellow') 
 
-
+# Here we name, create, and send our graphs to png files that can be found in your directory
 plt.figure('GOOD Day')
 nx.draw(Ggood,  node_size=10, node_color=color_mapg)
 plt.savefig("goodgraph.png")

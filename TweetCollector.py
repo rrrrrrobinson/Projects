@@ -20,7 +20,7 @@ for i in tweets:
              + str(i.date) + " weathersent " + str(i.weatherSent))
     
     # Here we store our TweetDB objects to our database
-    print(DB.saveToDB(i)) 
+    #print(DB.saveToDB(i)) 
     
 # Tells us how big the batch we just collected was 
 print(len(tweets))
