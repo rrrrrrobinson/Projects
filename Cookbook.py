@@ -6,8 +6,8 @@ Here we will define functions using Twitter API endpoints to use in our mining p
 import WeatherAPI as wa
 import twitter
 import json # ~pretty~ print
-from functools import partial # maybe on this one dont know if well actually need it
-import io # send to files to send to databse
+from functools import partial 
+import io 
 from collections import Counter
 import nltk.sentiment.util
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -20,20 +20,20 @@ import string
 
 class TweetDB:
     # This is our datatype to be sent to our databse containing a tweet, its sentiment, the time and date its created, 
-    #       and the sentiment of the weather at the time of collection
+    # And the sentiment of the weather at the time of collection
     weth = wa.getWeatherData() # Create a local variable of the weather sentiment by making a call to the Weather API
     def __init__(self, twStr, time, weatherSent=weth):
         ls = time.split() # Splitting the time returned by twitter into the format we want
         self.tweetSent = sentiment(twStr) # Setniment of tweet using out function sentiment()
-        self.tweet = twStr # tweet as string
-        self.time = ls[3] # time in '00:00:00' format UTC
-        self.date = ' '.join(ls[0:3]) # date in 'Wed Oct 10' format
-        self.weatherSent = weatherSent # weather sentiment
+        self.tweet = twStr # Tweet as string
+        self.time = ls[3] # Time in '00:00:00' format UTC
+        self.date = ' '.join(ls[0:3]) # Date in 'Wed Oct 10' format
+        self.weatherSent = weatherSent # Weather sentiment
 
 
 
-#This oath function was taken from the Ch. 9 Cookbook of our textbook 
-    #https://github.com/mikhailklassen/Mining-the-Social-Web-3rd-Edition/blob/master/notebooks/Chapter%209%20-%20Twitter%20Cookbook.ipynb
+# This oath function was taken from the Ch. 9 Cookbook of our textbook 
+    # https://github.com/mikhailklassen/Mining-the-Social-Web-3rd-Edition/blob/master/notebooks/Chapter%209%20-%20Twitter%20Cookbook.ipynb
 def oauth_login():
     keys = []
     with open ('keys.txt', 'rt') as myfile:  # Open keys.txt for reading
@@ -84,41 +84,33 @@ def StreamLoc (twitter_api, location):
 
 
 # This function takes in a tweet in the form of a string and tokenizes, lemmatizes, checks for recognizable words, and then
-#       gives it a polarity score using the method Vader employs
+# Gives it a polarity score using the method Vader employs
 def sentiment(tweetStr):
 
     stop_words = stopwords.words('english') # stop_words is a list of english words marked as stop words by nltk
-    vocab = words.words() # vocab is the list of words in nltk
+    vocab = words.words() # Vocab is the list of words in nltk
 
-    tokens = tokenize.word_tokenize(tweetStr) # a regular tokenizer to break out string into tokens
+    tokens = tokenize.word_tokenize(tweetStr) # A regular tokenizer to break out string into tokens
     # We chose not to use the TweetTokenizer because we did not want to preserve hashtags attached to words
     print (tokens)
 
-    # lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
-    # >>> import nltk
-    # >>> nltk.download('wordnet')
+    # Lemmatization (text normalization) = stripping off prefix/sufix so that the resulting form is a known word in dictionary
     wnl = WordNetLemmatizer()
+
     # Here we lemmatize the words so long as they are not stopwords or punctuation 
     newSet = [wnl.lemmatize(t) for t in tokens if t not in stop_words \
          and t not in string.punctuation]
     after = len([lt for lt in newSet if lt in vocab])
     if after == 0: # If no words in the tweet that arent stopwords, puncuation or aren't recognized by NLTK
-        return 0 # return 0 to be caught in our StreamLoc() functino so the tweet is not added to the list TweetDB objects
-    newString = ' '.join(newSet) # rejoin our words with a space between each
+        return 0 # Return 0 to be caught in our StreamLoc() functino so the tweet is not added to the list TweetDB objects
+    newString = ' '.join(newSet) # Rejoin our words with a space between each
     
-
-    # not needed?
-    # >>> nltk.download('sentiwordnet')
-    #for i in swn.senti_synsets(newSet): 
-    #   print(i)
-
-    # https://www.nltk.org/api/nltk.sentiment.html
-    # >>> nltk.download('vader_lexicon')
     # Output polarity scores for a text using Vader approach.
     a = SentimentIntensityAnalyzer().polarity_scores(newString)
     print (a) # Lets us see what things are getting scored at while the program is running
     return a # This function returns a polarity score dictionary in the from '{'neg': 0.0, 'neu': 0.0, 'pos': 0.0, 'compound': 0.0}
 
+# Get recent tweets based of search tweets
 def getTweetsFromPast5Days(twitter_api):
 
     q = '""'

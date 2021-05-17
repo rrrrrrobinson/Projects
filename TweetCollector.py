@@ -8,6 +8,7 @@ import DbPy as DB
 # Here we create a twitter api object using the tokens of our Twitter app
 twitter_api = cb.oauth_login()
 print(twitter_api)
+
 # Here we call our function that implements Twitter's Streaming API on 2 diagonal corners of Syracuse's corrdinates
 tweets = cb.StreamLoc(twitter_api, '-76.33,42.90,-75.87,43.14') #Syracuse, NY SW and NE corner
 # Tweets is a list of TweetDB type objects containing the tweet, the time and date it was created,

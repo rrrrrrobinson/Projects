@@ -7,15 +7,17 @@ import Cookbook as cb
 twitter_api = cb.oauth_login()
 
 # test_tweets = cb.getTweetsFromPast5Days(twitter_api)
-test_tweets = ['Syracuse hung in there in the first but their shot selection has to be better. Played catch with McElroy too much.… https://t.co/K1xGaCIiix',
-               'It really just be me and my son he’s my only friend',
-               '@mlhelmke1 People need to get the vaccine to protect themselves and those in their inner circle and those that choo… https://t.co/raeOJ1Zp1h',
-               '@TheRickyDavila Wouldn’t be surprised to see some people dancing in the streets!',
-               '@MarkRuffalo once again bring the hero we all need.',
-               'RT @lwcesf: .@binghamtonu and @PrezHarvey are failing their students of color by not providing a more diverse and accessible counseling cen…',
-               '@sexybulba As well you should angel you’re perfect',
-               'Safe Travels: Sleep in the trees with these magical Upstate NY treehouses https://t.co/nBkbejK12D']
-               
+
+# Test Tweets that are not included in the training set, because they will be classified later
+test_tweets = [('Syracuse hung in there in the first but their shot selection has to be better. Played catch with McElroy too much.… https://t.co/K1xGaCIiix','Actual: GOOD'),
+               ('It really just be me and my son he’s my only friend','Actual: GOOD'),
+               ('@mlhelmke1 People need to get the vaccine to protect themselves and those in their inner circle and those that choo… https://t.co/raeOJ1Zp1h','Actual: GOOD'),
+               ('@TheRickyDavila Wouldn’t be surprised to see some people dancing in the streets!','Actual: GOOD'),
+               ('@MarkRuffalo once again bring the hero we all need.','Actual: OK'),
+               ('RT @lwcesf: .@binghamtonu and @PrezHarvey are failing their students of color by not providing a more diverse and accessible counseling cen…','Actual: OK'),
+               ('@sexybulba As well you should angel you’re perfect','Actual: GOOD'),
+               ('Safe Travels: Sleep in the trees with these magical Upstate NY treehouses https://t.co/nBkbejK12D','Actual: GOOD')]
+
 
 
 
@@ -74,6 +76,7 @@ classifier = NaiveBayesClassifier.train(training_set)
 # Shows the most prominent/infleuncial words on a given weather type day
 classifier.show_most_informative_features(100)
 
-for t in test_tweets:
+# Loop through test tweets and classify them
+for (t,a) in test_tweets:
     # print "{0} : {1}".format(t, classifier.classify(extract_features(t.split())))
-    print ("{0} : {1}".format(t, classifier.classify(extract_features([e.lower() for e in t.split() if len(e) >= 3]))))
+    print ("{0} : {1} ... {2}".format(t, classifier.classify(extract_features([e.lower() for e in t.split() if len(e) >= 3])),a))
