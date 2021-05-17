@@ -6,6 +6,8 @@ Before running our program we have to install some dependencies:
     Start by installing all of the python packages required:
         1. open directory Weatherments
         2. "pip install -r requirements.txt" in command prompt and the neccesary packages will be delivered
+        **** Warning: you might have to explicitly install the scipy file as follows:
+            "pip install scipy"
 
     Then we have to download the required NLTK corpora:
         1. in the directory Weatherments 
@@ -23,7 +25,8 @@ Now that all of our dependencies are installed:
 
 
     Our Python module Alalysis.py displays our findings from our data. 
-        To run this module enter 'python Analysis.py' into the command line
+        To run this module enter 'python Analysis.py' into the command line.
 
-
+    Our Python module Classifier.py contains our Bayes Classifier that is fed a small set of tweets 
+        and outputs the type of day it thinks it was created on.
 
