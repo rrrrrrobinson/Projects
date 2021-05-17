@@ -1,8 +1,9 @@
 Weatherments is a software that combines analyisis of tweet setniments using NLTK and weather sentiments using a homergrown mapping from weather data to degrees of goodness to figure out the general mood of people in a specific area during certain weather states.
+Hunter Malley, Hong Chen, Mike Jones, Robert Robinson, Julia Barucky
 
 
 Before running our program we have to install some dependencies:
-
+    
     Start by installing all of the python packages required:
         1. open directory Weatherments
         2. "pip install -r requirements.txt" in command prompt and the neccesary packages will be delivered
