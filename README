@@ -30,3 +30,5 @@ Now that all of our dependencies are installed:
     Our Python module Classifier.py contains our Bayes Classifier that is fed a small set of tweets 
         and outputs the type of day it thinks it was created on.
 
+    To view our dataset that we have collected, you can open the file DataFile.json
+
